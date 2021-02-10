@@ -15,7 +15,12 @@ import kotlinx.android.synthetic.main.movie_fragment.*
 class MovieFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MovieFragment()
+        const val BUNDLE_EXTRA = "movieData"
+        fun newInstance(bundle: Bundle): MovieFragment {
+            val movieFragment = MovieFragment()
+            movieFragment.arguments = bundle
+            return movieFragment
+        }
     }
 
     private lateinit var viewModel: MovieViewModel
@@ -30,7 +35,7 @@ class MovieFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-        arguments?.getParcelable<Movie>("movie")?.let { viewModel.setData(it) }
+        arguments?.getParcelable<Movie>(BUNDLE_EXTRA)?.let { viewModel.setData(it) }
         val observer = Observer<Movie> {renderData(it)}
         viewModel.getData().observe(viewLifecycleOwner, observer)
     }
