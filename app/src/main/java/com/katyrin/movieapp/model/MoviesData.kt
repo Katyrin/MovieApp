@@ -18,8 +18,7 @@ object MoviesData {
 
     private fun initGenres(): Map<String, List<Movie>> {
         val genresMap: MutableMap<String, List<Movie>> = HashMap()
-        val iterator = movies.toList().iterator()
-        iterator.forEach {
+        movies.forEach {
             val genre = it.genre
             val movies: MutableList<Movie> = ArrayList()
             movies.add(it)
@@ -27,7 +26,7 @@ object MoviesData {
                 movies.addAll(genresMap[genre]!!)
                 genresMap.remove(genre)
             }
-            genresMap[genre!!] = movies
+            genresMap[genre] = movies
         }
         return genresMap
     }
