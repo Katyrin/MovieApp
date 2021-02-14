@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.katyrin.movieapp.R
 import com.katyrin.movieapp.model.Movie
+import com.katyrin.movieapp.view.MovieFragment.Companion.BUNDLE_EXTRA
 
 class VerticalRVAdapter(private val genres: Map<String, List<Movie>>
 ): RecyclerView.Adapter<VerticalRVAdapter.VerticalViewHolder>() {
@@ -42,11 +43,10 @@ class VerticalRVAdapter(private val genres: Map<String, List<Movie>>
         moviesRV.adapter = MainRVAdapter(moviesList, object : FilmOnClickListener {
             override fun onFilmClicked(movie: Movie) {
                 val bundle = Bundle()
-                bundle.putParcelable("movie", movie)
+                bundle.putParcelable(BUNDLE_EXTRA, movie)
 
                 val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                val movieFragment = MovieFragment.newInstance()
-                movieFragment.arguments = bundle
+                val movieFragment = MovieFragment.newInstance(bundle)
                 transaction.replace(R.id.container, movieFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
