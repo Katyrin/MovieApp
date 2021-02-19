@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.katyrin.movieapp.R
-import com.katyrin.movieapp.model.Movie
+import com.katyrin.movieapp.model.ResultsDTO
 
 class MainRVAdapter(
-    private val moviesList: List<Movie>, private val onClickListener: FilmOnClickListener
+    private val moviesList: Array<ResultsDTO?>, private val onClickListener: FilmOnClickListener
 ): RecyclerView.Adapter<MainRVAdapter.MainViewHolder>() {
 
     inner class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -26,11 +26,11 @@ class MainRVAdapter(
         return MainViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.movieName.text = moviesList[position].movieName
-        holder.rating.text = moviesList[position].rating.toString()
-        holder.year.text = moviesList[position].year.toString()
+        holder.movieName.text = moviesList[position]?.title
+        holder.rating.text = moviesList[position]?.vote_average
+        holder.year.text = moviesList[position]?.release_date
         holder.cardView.setOnClickListener {
-            onClickListener.onFilmClicked(moviesList[position])
+            moviesList[position]?.let { it1 -> onClickListener.onFilmClicked(it1) }
         }
     }
 
