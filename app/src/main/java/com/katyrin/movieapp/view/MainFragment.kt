@@ -22,7 +22,9 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,7 +33,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         val observer = Observer<AppState> {renderData(it)}
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         viewModel.getMoviesFromLocalSource()
@@ -49,9 +51,11 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 loadingLayout.visibility = View.GONE
-                Snackbar.make(requireView(), "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getMoviesFromLocalSource() }
-                    .apply { anchorView = requireActivity().findViewById(R.id.bottomNavigation) }.show()
+                requireView().createAndShow(
+                        "Error", "Reload",
+                        { viewModel.getMoviesFromLocalSource() },
+                        Snackbar.LENGTH_INDEFINITE
+                )
             }
         }
     }
@@ -62,7 +66,16 @@ class MainFragment : Fragment() {
         mainRecyclerView.layoutManager = layoutManager
         mainRecyclerView.adapter = VerticalRVAdapter(moviesData.genres)
 
-        Snackbar.make(requireView(), "Success", Snackbar.LENGTH_LONG)
-            .apply { anchorView = requireActivity().findViewById(R.id.bottomNavigation) }.show()
+        requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
+    }
+
+    private fun View.createAndShow(text: String, actionText: String = "",
+                                   action: ((View) -> Unit)? = null,
+                                   length: Int = Snackbar.LENGTH_INDEFINITE) {
+        Snackbar.make(this, text, length).also {
+            if (action != null) it.setAction(actionText, action)
+        }.apply {
+            anchorView = requireActivity().findViewById(R.id.bottomNavigation)
+        }.show()
     }
 }

@@ -23,7 +23,9 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: MovieViewModel
+    private val viewModel: MovieViewModel by lazy {
+        ViewModelProvider(this).get(MovieViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +36,7 @@ class MovieFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+
         arguments?.getParcelable<Movie>(BUNDLE_EXTRA)?.let { viewModel.setData(it) }
         val observer = Observer<Movie> {renderData(it)}
         viewModel.getData().observe(viewLifecycleOwner, observer)
