@@ -15,11 +15,11 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/item_image_view"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
+            android:id="@+id/itemImageView"
+            android:layout_width="160dp"
+            android:layout_height="200dp"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            android:contentDescription="@string/poster" />
 
         <TextView
             android:id="@+id/movieName"
@@ -45,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@android:drawable/btn_star_big_on"
+                android:contentDescription="@string/rating_star"/>
 
             <TextView
                 android:id="@+id/ratingTextView"

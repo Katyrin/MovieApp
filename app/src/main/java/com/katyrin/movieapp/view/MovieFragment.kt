@@ -8,14 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.katyrin.movieapp.R
-import com.katyrin.movieapp.model.ResultsDTO
+import com.katyrin.movieapp.model.BUNDLE_EXTRA
+import com.katyrin.movieapp.model.IMAGE_BASE_URL
+import com.katyrin.movieapp.model.Movie
 import com.katyrin.movieapp.viewmodel.MovieViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_fragment.*
 
 class MovieFragment : Fragment() {
 
     companion object {
-        const val MOVIE_BUNDLE_EXTRA = "movieData"
         fun newInstance(bundle: Bundle): MovieFragment {
             val movieFragment = MovieFragment()
             movieFragment.arguments = bundle
@@ -37,16 +39,19 @@ class MovieFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        arguments?.getParcelable<ResultsDTO>(MOVIE_BUNDLE_EXTRA)?.let { viewModel.setData(it) }
-        val observer = Observer<ResultsDTO> {renderData(it)}
+        arguments?.getParcelable<Movie>(BUNDLE_EXTRA)?.let { viewModel.setData(it) }
+        val observer = Observer<Movie> {renderData(it)}
         viewModel.getData().observe(viewLifecycleOwner, observer)
     }
 
-    private fun renderData(movie: ResultsDTO) {
+    private fun renderData(movie: Movie) {
         movieName.text = movie.title
         description.text = movie.overview
-        ratingTextView.text = movie.vote_average
-        yearTextView.text = movie.release_date
+        ratingTextView.text = movie.voteAverage
+        yearTextView.text = movie.releaseDate
+        Picasso.get()
+            .load(IMAGE_BASE_URL + movie.posterPath)
+            .into(itemImageView)
     }
 
 }

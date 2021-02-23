@@ -1,10 +1,7 @@
 package com.katyrin.movieapp.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
 data class GenresDTO(
-    val genres: Array<GenreDTO?>
+    val genres: Array<GenreDTO>?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -12,18 +9,20 @@ data class GenresDTO(
 
         other as GenresDTO
 
-        if (!genres.contentEquals(other.genres)) return false
+        if (genres != null) {
+            if (other.genres == null) return false
+            if (!genres.contentEquals(other.genres)) return false
+        } else if (other.genres != null) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return genres.contentHashCode()
+        return genres?.contentHashCode() ?: 0
     }
 }
 
-@Parcelize
 data class GenreDTO(
-    val id: Int,
-    val name: String
-): Parcelable
+    val id: Int?,
+    val name: String?
+)

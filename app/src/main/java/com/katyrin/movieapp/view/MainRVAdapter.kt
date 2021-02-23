@@ -3,14 +3,17 @@ package com.katyrin.movieapp.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.katyrin.movieapp.R
-import com.katyrin.movieapp.model.ResultsDTO
+import com.katyrin.movieapp.model.IMAGE_BASE_URL
+import com.katyrin.movieapp.model.Movie
+import com.squareup.picasso.Picasso
 
 class MainRVAdapter(
-    private val moviesList: Array<ResultsDTO?>, private val onClickListener: FilmOnClickListener
+    private val moviesList: List<Movie>, private val onClickListener: FilmOnClickListener
 ): RecyclerView.Adapter<MainRVAdapter.MainViewHolder>() {
 
     inner class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -18,6 +21,7 @@ class MainRVAdapter(
         val rating: TextView = view.findViewById(R.id.ratingTextView)
         val year: TextView = view.findViewById(R.id.yearTextView)
         val cardView: CardView = view.findViewById(R.id.cardView)
+        val itemImageView: ImageView = view.findViewById(R.id.itemImageView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -26,11 +30,15 @@ class MainRVAdapter(
         return MainViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.movieName.text = moviesList[position]?.title
-        holder.rating.text = moviesList[position]?.vote_average
-        holder.year.text = moviesList[position]?.release_date
+        holder.movieName.text = moviesList[position].title
+        holder.rating.text = moviesList[position].voteAverage
+        holder.year.text = moviesList[position].releaseDate
+        holder.itemImageView
+        Picasso.get()
+            .load(IMAGE_BASE_URL + moviesList[position].posterPath)
+            .into(holder.itemImageView)
         holder.cardView.setOnClickListener {
-            moviesList[position]?.let { it1 -> onClickListener.onFilmClicked(it1) }
+            onClickListener.onFilmClicked(moviesList[position])
         }
     }
 
