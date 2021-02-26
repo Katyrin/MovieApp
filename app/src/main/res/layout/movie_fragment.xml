@@ -13,11 +13,12 @@
         android:padding="@dimen/layout_padding">
 
         <ImageView
-            android:id="@+id/item_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:id="@+id/itemImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/poster" />
 
         <TextView
             android:id="@+id/movieName"
@@ -43,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@android:drawable/btn_star_big_on"
+                android:contentDescription="@string/rating_star" />
 
             <TextView
                 android:id="@+id/ratingTextView"

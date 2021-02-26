@@ -1,76 +1,27 @@
 package com.katyrin.movieapp.view
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.katyrin.movieapp.R
-import com.katyrin.movieapp.model.*
+import com.katyrin.movieapp.model.Genre
+import com.katyrin.movieapp.model.Movie
+import com.katyrin.movieapp.viewmodel.AppState
 import com.katyrin.movieapp.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
+import java.util.*
 
 class MainFragment : Fragment() {
 
     companion object {
         val TAG: String = MainFragment::class.java.simpleName
         fun newInstance() = MainFragment()
-    }
-
-    private lateinit var genreBundle: Genre
-    private val loadResultsReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when(intent?.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
-                DETAILS_INTENT_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_DATA_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_EMPTY_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_REQUEST_ERROR_MESSAGE_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_URL_MALFORMED_EXTRA -> TODO(PROCESS_ERROR)
-                DETAILS_RESPONSE_SUCCESS_EXTRA -> renderData(
-                    GenresDTO(
-                        intent.getParcelableArrayExtra(DETAILS_GENRES_LIST_EXTRA) as Array<GenreDTO?>
-                    )
-                )
-                else -> TODO(PROCESS_ERROR)
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        context?.let {
-            LocalBroadcastManager.getInstance(it)
-                .registerReceiver(loadResultsReceiver, IntentFilter(DETAILS_INTENT_FILTER))
-        }
-    }
-
-    override fun onDestroy() {
-        context?.let {
-            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
-        }
-        super.onDestroy()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        genreBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Genre()
-        getGenres()
-    }
-
-    private fun getGenres() {
-        loadingLayout?.apply { visibility = View.VISIBLE }
-        context?.let {
-            it.startService(Intent(it, GenresService::class.java))
-        }
     }
 
     private val viewModel: MainViewModel by lazy {
@@ -82,57 +33,43 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-//        val observer = Observer<AppState> { renderData(it)}
-//        viewModel.getLiveData().observe(viewLifecycleOwner, observer)
-        viewModel.getMoviesFromLocalSource()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.liveDataToObserve.observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getGenresFromRemoteSource(getString(R.string.language))
     }
 
-    private fun renderData(genresDTO: GenresDTO) {
-        loadingLayout?.apply { visibility = View.GONE }
-        val genres = genresDTO.genres
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                loadingLayout.visibility = View.GONE
+                setData(appState.movies)
+            }
+            is AppState.Loading -> {
+                loadingLayout.visibility = View.VISIBLE
+            }
+            is AppState.LoadingSecondQuery -> {
 
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        mainRecyclerView?.apply {
-            this.layoutManager = layoutManager
-            adapter = VerticalRVAdapter(genres)
+            }
+            is AppState.Error -> {
+                loadingLayout.visibility = View.GONE
+                requireView().createAndShow(
+                        "Error", "Reload",
+                        { viewModel.getGenresFromRemoteSource(getString(R.string.language)) },
+                        Snackbar.LENGTH_INDEFINITE
+                )
+            }
         }
-
-        view?.createAndShow("Success", length = Snackbar.LENGTH_LONG)
     }
 
-//    private fun renderData(appState: AppState) {
-//        when (appState) {
-//            is AppState.Success -> {
-//                val moviesData = appState.movies
-//                loadingLayout.visibility = View.GONE
-//                setData(moviesData)
-//            }
-//            is AppState.Loading -> {
-//                loadingLayout.visibility = View.VISIBLE
-//            }
-//            is AppState.Error -> {
-//                loadingLayout.visibility = View.GONE
-//                requireView().createAndShow(
-//                        "Error", "Reload",
-//                        { viewModel.getMoviesFromLocalSource() },
-//                        Snackbar.LENGTH_INDEFINITE
-//                )
-//            }
-//        }
-//    }
+    private fun setData(genres: SortedMap<Genre, List<Movie>>) {
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        mainRecyclerView.layoutManager = layoutManager
+        mainRecyclerView.adapter = VerticalRVAdapter(genres)
 
-//    private fun setData(moviesData: MoviesData) {
-//        val layoutManager = LinearLayoutManager(requireContext())
-//        layoutManager.orientation = LinearLayoutManager.VERTICAL
-//        mainRecyclerView.layoutManager = layoutManager
-//        mainRecyclerView.adapter = VerticalRVAdapter(moviesData.genres)
-//
-//        requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
-//    }
+        requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
+    }
 
     private fun View.createAndShow(text: String, actionText: String = "",
                                    action: ((View) -> Unit)? = null,

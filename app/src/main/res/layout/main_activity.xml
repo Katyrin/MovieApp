@@ -8,16 +8,7 @@
     android:id="@+id/mainLayout"
     tools:context=".view.MainActivity">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingBottom="48dp">
-
-        <include layout="@layout/content_main" />
-
-    </androidx.core.widget.NestedScrollView>
+    <include layout="@layout/content_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
