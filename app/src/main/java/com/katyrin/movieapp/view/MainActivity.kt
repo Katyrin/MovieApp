@@ -14,9 +14,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.katyrin.movieapp.*
-import kotlinx.android.synthetic.main.main_activity.*
+import com.katyrin.movieapp.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private lateinit var binding: MainActivityBinding
 
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.MOVIES
     private val myReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -43,7 +45,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, MainFragment.newInstance())
@@ -58,9 +62,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun initBottomNavigation(savedInstanceState: Bundle?) {
-        bottomNavigation.setOnNavigationItemSelectedListener(this)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
         if (savedInstanceState == null) {
-            bottomNavigation.selectedItemId = R.id.movies
+            binding.bottomNavigation.selectedItemId = R.id.movies
         }
     }
 

@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.katyrin.movieapp.R
+import com.katyrin.movieapp.databinding.MovieFragmentBinding
 import com.katyrin.movieapp.model.BUNDLE_EXTRA
 import com.katyrin.movieapp.model.IMAGE_BASE_URL
 import com.katyrin.movieapp.model.Movie
 import com.katyrin.movieapp.viewmodel.MovieViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.movie_fragment.*
 
 class MovieFragment : Fragment() {
+
+    private lateinit var binding: MovieFragmentBinding
 
     companion object {
         fun newInstance(bundle: Bundle): MovieFragment {
@@ -29,11 +30,10 @@ class MovieFragment : Fragment() {
         ViewModelProvider(this).get(MovieViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.movie_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        binding = MovieFragmentBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -45,13 +45,13 @@ class MovieFragment : Fragment() {
     }
 
     private fun renderData(movie: Movie) {
-        movieName.text = movie.title
-        description.text = movie.overview
-        ratingTextView.text = movie.voteAverage
-        yearTextView.text = movie.releaseDate
+        binding.movieName.text = movie.title
+        binding.description.text = movie.overview
+        binding.ratingTextView.text = movie.voteAverage
+        binding.yearTextView.text = movie.releaseDate
         Picasso.get()
             .load(IMAGE_BASE_URL + movie.posterPath)
-            .into(itemImageView)
+            .into(binding.itemImageView)
     }
 
 }

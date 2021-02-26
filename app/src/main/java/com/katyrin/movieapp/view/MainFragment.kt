@@ -4,20 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.katyrin.movieapp.R
+import com.katyrin.movieapp.databinding.MainFragmentBinding
 import com.katyrin.movieapp.model.Genre
 import com.katyrin.movieapp.model.Movie
 import com.katyrin.movieapp.viewmodel.AppState
 import com.katyrin.movieapp.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
 class MainFragment : Fragment() {
+
+    private lateinit var binding: MainFragmentBinding
 
     companion object {
         val TAG: String = MainFragment::class.java.simpleName
@@ -30,7 +31,8 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,17 +44,17 @@ class MainFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                loadingLayout.visibility = View.GONE
+                binding.loadingLayout.visibility = View.GONE
                 setData(appState.movies)
             }
             is AppState.Loading -> {
-                loadingLayout.visibility = View.VISIBLE
+                binding.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.LoadingSecondQuery -> {
 
             }
             is AppState.Error -> {
-                loadingLayout.visibility = View.GONE
+                binding.loadingLayout.visibility = View.GONE
                 requireView().createAndShow(
                         "Error", "Reload",
                         { viewModel.getGenresFromRemoteSource(getString(R.string.language)) },
@@ -65,8 +67,8 @@ class MainFragment : Fragment() {
     private fun setData(genres: SortedMap<Genre, List<Movie>>) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
-        mainRecyclerView.layoutManager = layoutManager
-        mainRecyclerView.adapter = VerticalRVAdapter(genres)
+        binding.mainRecyclerView.layoutManager = layoutManager
+        binding.mainRecyclerView.adapter = VerticalRVAdapter(genres)
 
         requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
     }
