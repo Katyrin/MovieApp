@@ -13,8 +13,11 @@ class MoviesRepositoryImpl(private val remoteDataSource: RemoteDataSource): Movi
         language: String,
         sortBy: String,
         withGenres: Int,
+        includeAdult: Boolean,
+        voteAverage: Int,
         callback: Callback<MoviesDTO>
     ) {
-        remoteDataSource.getMoviesByGenreDetails(language, sortBy, withGenres, callback)
+        remoteDataSource.getMoviesByGenreDetails(language, sortBy, withGenres,
+                includeAdult, voteAverage, callback)
     }
 }

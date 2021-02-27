@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Movie App</string>
-    <string name="favorites">Favorites</string>
-    <string name="rating">Rating</string>
     <string name="language">ru</string>
     <string name="poster">Poster</string>
     <string name="rating_star">Rating star</string>
+    <string name="movies">Movies</string>
+    <string name="favorites">Favorites</string>
+    <string name="rating">Rating</string>
+    <string name="setting">Setting</string>
+    <string name="adult_content">Adult content</string>
 </resources>

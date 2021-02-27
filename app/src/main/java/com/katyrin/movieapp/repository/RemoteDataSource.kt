@@ -33,8 +33,8 @@ class RemoteDataSource {
     }
 
     fun getMoviesByGenreDetails(language: String, sortBy: String, withGenres: Int,
-                                callback: Callback<MoviesDTO>) {
-        genresApi.getMoviesByGenre(MOVIE_API_KEY, language, sortBy, withGenres).enqueue(callback)
+                                includeAdult: Boolean, voteAverage: Int, callback: Callback<MoviesDTO>) {
+        genresApi.getMoviesByGenre(MOVIE_API_KEY, language, sortBy, withGenres, includeAdult, voteAverage).enqueue(callback)
     }
 
     inner class MovieApiInterceptor : Interceptor {

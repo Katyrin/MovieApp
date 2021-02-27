@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commitNow()
         }
         initBottomNavigation(savedInstanceState)
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -96,5 +99,33 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportFragmentManager.beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.settings -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(R.id.container, SettingsFragment.newInstance(binding))
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        if (SettingsFragment.newInstance().isInLayout)
+//            binding.bottomNavigation.visibility = View.GONE
+//        else
+//            binding.bottomNavigation.visibility = View.VISIBLE
+//    }
 
 }

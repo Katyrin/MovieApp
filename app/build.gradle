@@ -57,6 +57,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     testImplementation 'junit:junit:4.13.2'

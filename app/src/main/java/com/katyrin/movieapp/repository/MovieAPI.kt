@@ -18,6 +18,8 @@ interface MovieAPI {
         @Query("api_key") token: String,
         @Query("language") language: String,
         @Query("sort_by") sortBy: String,
-        @Query("with_genres") withGenres: Int
+        @Query("with_genres") withGenres: Int,
+        @Query("include_adult") includeAdult: Boolean,
+        @Query("vote_average.gte") voteAverage: Int
     ): Call<MoviesDTO>
 }

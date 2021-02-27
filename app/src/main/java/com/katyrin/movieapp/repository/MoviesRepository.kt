@@ -14,6 +14,8 @@ interface MoviesRepository {
         language: String,
         sortBy: String,
         withGenres: Int,
+        includeAdult: Boolean,
+        voteAverage: Int,
         callback: Callback<MoviesDTO>
     )
 }
