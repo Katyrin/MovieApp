@@ -8,4 +8,13 @@
     <string name="rating">Rating</string>
     <string name="setting">Setting</string>
     <string name="adult_content">Adult content</string>
+    <string name="search_movie">Search movie</string>
+    <string name="found_on_request">Found on request:</string>
+    <string name="my_browsing_history">My browsing history</string>
+    <string name="history">History</string>
+    <string name="date_viewed">Date viewed:</string>
+    <string name="write_note">Write note</string>
+    <string name="enter_note">Enter note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="note">Note:</string>
 </resources>

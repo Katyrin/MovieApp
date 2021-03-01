@@ -18,4 +18,11 @@ interface MoviesRepository {
         voteAverage: Int,
         callback: Callback<MoviesDTO>
     )
+
+    fun getSearchMoviesFromServer(
+            language: String,
+            includeAdult: Boolean,
+            query: String,
+            callback: Callback<MoviesDTO>
+    )
 }

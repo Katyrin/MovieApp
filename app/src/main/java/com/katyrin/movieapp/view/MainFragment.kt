@@ -60,16 +60,11 @@ class MainFragment : Fragment() {
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
             }
-            is AppState.LoadingSecondQuery -> {
-
-            }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 requireView().createAndShow(
-                        "Error", "Reload",
-                        { getMoviesWithSettings() },
-                        Snackbar.LENGTH_INDEFINITE
-                )
+                    "Error", "Reload", { getMoviesWithSettings() },
+                    Snackbar.LENGTH_INDEFINITE)
             }
         }
     }
@@ -81,15 +76,5 @@ class MainFragment : Fragment() {
         binding.mainRecyclerView.adapter = VerticalRVAdapter(genres)
 
         requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
-    }
-
-    private fun View.createAndShow(text: String, actionText: String = "",
-                                   action: ((View) -> Unit)? = null,
-                                   length: Int = Snackbar.LENGTH_INDEFINITE) {
-        Snackbar.make(this, text, length).also {
-            if (action != null) it.setAction(actionText, action)
-        }.apply {
-            anchorView = requireActivity().findViewById(R.id.bottomNavigation)
-        }.show()
     }
 }

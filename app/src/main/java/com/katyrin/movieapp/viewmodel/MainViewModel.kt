@@ -2,10 +2,7 @@ package com.katyrin.movieapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.katyrin.movieapp.model.Genre
-import com.katyrin.movieapp.model.GenresDTO
-import com.katyrin.movieapp.model.Movie
-import com.katyrin.movieapp.model.MoviesDTO
+import com.katyrin.movieapp.model.*
 import com.katyrin.movieapp.repository.MoviesRepository
 import com.katyrin.movieapp.repository.MoviesRepositoryImpl
 import com.katyrin.movieapp.repository.RemoteDataSource
@@ -14,10 +11,6 @@ import com.katyrin.movieapp.utils.convertMoviesDtoToModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-private const val SERVER_ERROR = "Ошибка сервера"
-private const val REQUEST_ERROR = "Ошибка запроса на сервер"
-private const val CORRUPTED_DATA = "Неполные данные"
 
 class MainViewModel(
     val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
@@ -39,13 +32,8 @@ class MainViewModel(
 
     fun getMoviesFromRemoteSource(language: String,  sortBy: String, genre: Genre, size: Int,
                                   includeAdult: Boolean, voteAverage: Int) {
-        moviesRepositoryImpl.getMoviesByGenreFromServer(
-                language,
-                sortBy,
-                genre.id,
-                includeAdult,
-                voteAverage,
-                object : Callback<MoviesDTO> {
+        moviesRepositoryImpl.getMoviesByGenreFromServer(language, sortBy, genre.id, includeAdult,
+                voteAverage, object : Callback<MoviesDTO> {
                     override fun onResponse(call: Call<MoviesDTO>, response: Response<MoviesDTO>) {
                         val serverResponse: MoviesDTO? = response.body()
                         liveDataToObserve.postValue(

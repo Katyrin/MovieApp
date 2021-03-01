@@ -8,7 +8,8 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -28,9 +29,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork = connectivityManager.activeNetworkInfo
             runOnUiThread {
-                Toast.makeText(this@MainActivity,
-                        "Received event, value: $activeNetwork",
-                        Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Received event, value: $activeNetwork",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -56,6 +60,32 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commitNow()
         }
         initBottomNavigation(savedInstanceState)
+
+        val inputManager: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        binding.textInputEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                supportFragmentManager.apply {
+                    popBackStack()
+                    beginTransaction()
+                            .add(R.id.container, SearchMoviesFragment
+                                    .newInstance(binding.textInputEditText.text.toString()))
+                            .addToBackStack(null)
+                            .commit()
+                }
+
+                inputManager.hideSoftInputFromWindow(
+                    currentFocus?.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS)
+
+                binding.textInputEditText.clearFocus()
+            }
+            return@setOnEditorActionListener true
+        }
+
+        binding.textInputLayout.setEndIconOnClickListener {
+            binding.textInputEditText.setText("")
+        }
 
     }
 
@@ -109,6 +139,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return when(item.itemId) {
             R.id.settings -> {
                 supportFragmentManager.apply {
+                    popBackStack()
                     beginTransaction()
                         .add(R.id.container, SettingsFragment.newInstance(binding))
                         .addToBackStack("")
@@ -119,13 +150,4 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        if (SettingsFragment.newInstance().isInLayout)
-//            binding.bottomNavigation.visibility = View.GONE
-//        else
-//            binding.bottomNavigation.visibility = View.VISIBLE
-//    }
-
 }

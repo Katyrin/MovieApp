@@ -7,5 +7,8 @@ const val BUNDLE_EXTRA = "BUNDLE EXTRA"
 const val IS_SHOW_ADULT_CONTENT = "IS_SHOW_ADULT_CONTENT"
 const val VOTE_AVERAGE = "VOTE_AVERAGE"
 const val SETTINGS_SHARED_PREFERENCE = "SETTINGS_SHARED_PREFERENCE"
+const val SERVER_ERROR = "Ошибка сервера"
+const val REQUEST_ERROR = "Ошибка запроса на сервер"
+const val CORRUPTED_DATA = "Неполные данные"
 
 

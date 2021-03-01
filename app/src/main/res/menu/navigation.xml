@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="@string/favorites" />
     <item
-        android:id="@+id/rating"
-        android:icon="@drawable/ic_baseline_star_rate_24"
-        android:title="@string/rating" />
+        android:id="@+id/history"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/history" />
 </menu>
