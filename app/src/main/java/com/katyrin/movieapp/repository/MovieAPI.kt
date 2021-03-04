@@ -18,6 +18,16 @@ interface MovieAPI {
         @Query("api_key") token: String,
         @Query("language") language: String,
         @Query("sort_by") sortBy: String,
-        @Query("with_genres") withGenres: Int
+        @Query("with_genres") withGenres: Int,
+        @Query("include_adult") includeAdult: Boolean,
+        @Query("vote_average.gte") voteAverage: Int
+    ): Call<MoviesDTO>
+
+    @GET("3/search/movie")
+    fun getSearchMovies(
+            @Query("api_key") token: String,
+            @Query("language") language: String,
+            @Query("include_adult") includeAdult: Boolean,
+            @Query("query") query: String
     ): Call<MoviesDTO>
 }

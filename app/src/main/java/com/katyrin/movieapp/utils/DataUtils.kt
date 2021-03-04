@@ -15,8 +15,11 @@ fun convertMoviesDtoToModel(moviesDTO: MoviesDTO): List<Movie> {
     val movies: Array<ResultsDTO> = moviesDTO.results!!
     val list: MutableList<Movie> = mutableListOf()
     movies.forEach {
-        list.add(Movie(it.title!!, it.posterPath!!, it.releaseDate!!, it.voteAverage!!,
-            it.overview!!, it.genreIds!!))
+        list.add(Movie(it.title ?: "null", it.posterPath ?: "null",
+            it.releaseDate ?: "null", it.voteAverage ?: "null",
+            it.overview ?: "null", it.genreIds ?: arrayOf(0),
+            it.idMovie ?: 0
+        ))
     }
     return list
 }

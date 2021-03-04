@@ -3,13 +3,13 @@
     <item
         android:id="@+id/movies"
         android:icon="@drawable/ic_baseline_movie_24"
-        android:title="Movies" />
+        android:title="@string/movies" />
     <item
         android:id="@+id/favorites"
         android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="Favorites" />
+        android:title="@string/favorites" />
     <item
-        android:id="@+id/rating"
-        android:icon="@drawable/ic_baseline_star_rate_24"
-        android:title="Rating" />
+        android:id="@+id/history"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="@string/history" />
 </menu>

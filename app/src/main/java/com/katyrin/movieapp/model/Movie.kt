@@ -1,7 +1,7 @@
 package com.katyrin.movieapp.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
@@ -10,7 +10,10 @@ data class Movie(
     val releaseDate: String = "",
     val voteAverage: String = "",
     val overview: String = "",
-    val genreIds: Array<Int>
+    val genreIds: Array<Int> = arrayOf(0),
+    val idMovie: Long = 0,
+    var dateSearching: String = "",
+    var filmNote: String = ""
 ): Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -24,6 +27,9 @@ data class Movie(
         if (voteAverage != other.voteAverage) return false
         if (overview != other.overview) return false
         if (!genreIds.contentEquals(other.genreIds)) return false
+        if (idMovie != other.idMovie) return false
+        if (dateSearching != other.dateSearching) return false
+        if (filmNote != other.filmNote) return false
 
         return true
     }
@@ -35,6 +41,9 @@ data class Movie(
         result = 31 * result + voteAverage.hashCode()
         result = 31 * result + overview.hashCode()
         result = 31 * result + genreIds.contentHashCode()
+        result = 31 * result + idMovie.hashCode()
+        result = 31 * result + dateSearching.hashCode()
+        result = 31 * result + filmNote.hashCode()
         return result
     }
 }
