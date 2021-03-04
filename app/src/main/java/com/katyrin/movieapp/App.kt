@@ -2,10 +2,10 @@ package com.katyrin.movieapp
 
 import android.app.Application
 import androidx.room.Room
+import com.katyrin.movieapp.model.room.FavoritesDao
 import com.katyrin.movieapp.model.room.HistoryDao
 import com.katyrin.movieapp.model.room.MainDataBase
 import com.katyrin.movieapp.model.room.NoteDao
-import java.lang.IllegalStateException
 
 class App: Application() {
     override fun onCreate() {
@@ -14,7 +14,7 @@ class App: Application() {
     }
 
     companion object {
-        private var appInstance: App? = null
+        private lateinit var appInstance: App
         private var db: MainDataBase? = null
         private const val DB_NAME = "MainDataBase.db"
 
@@ -22,9 +22,8 @@ class App: Application() {
             if (db == null) {
                 synchronized(MainDataBase::class.java) {
                     if (db == null) {
-                        if (appInstance == null)
-                            throw IllegalStateException("Application is null while creating Database")
-                        db = Room.databaseBuilder(appInstance!!.applicationContext,
+                        db = Room.databaseBuilder(
+                            appInstance.applicationContext,
                             MainDataBase::class.java, DB_NAME).build()
                     }
                 }
@@ -38,6 +37,10 @@ class App: Application() {
 
         fun getNoteDao(): NoteDao {
             return getMainDB()!!.noteDao()
+        }
+
+        fun getFavoritesDao(): FavoritesDao {
+            return getMainDB()!!.favoritesDao()
         }
     }
 }

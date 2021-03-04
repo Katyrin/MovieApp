@@ -1,10 +1,10 @@
 package com.katyrin.movieapp.repository
 
 import com.katyrin.movieapp.model.Movie
-import com.katyrin.movieapp.model.room.HistoryDao
-import com.katyrin.movieapp.model.room.HistoryEntity
+import com.katyrin.movieapp.model.room.FavoritesDao
+import com.katyrin.movieapp.model.room.FavoritesEntity
 
-class LocalRepositoryImpl(private val localDataSource: HistoryDao): LocalRepository {
+class LocalFavoritesRepositoryImpl(private val localDataSource: FavoritesDao): LocalRepository {
 
     override fun getAllMovies(): List<Movie> {
         return convertHistoryEntityToMovie(localDataSource.all())
@@ -15,18 +15,18 @@ class LocalRepositoryImpl(private val localDataSource: HistoryDao): LocalReposit
     }
 
     override fun deleteEntity(idMovie: Long) {
-        TODO("Not yet implemented")
+        localDataSource.deleteByIdMovie(idMovie)
     }
 
-    private fun convertHistoryEntityToMovie(entityList: List<HistoryEntity>): List<Movie> {
+    private fun convertHistoryEntityToMovie(entityList: List<FavoritesEntity>): List<Movie> {
         return entityList.map {
             Movie(it.title, it.posterPath, it.releaseDate, it.voteAverage, it.overview,
                 it.dateSearching, it.filmNote, it.idMovie)
         }
     }
 
-    private fun convertMovieToEntity(movie: Movie): HistoryEntity {
-        return HistoryEntity(0, movie.title, movie.posterPath, movie.releaseDate,
+    private fun convertMovieToEntity(movie: Movie): FavoritesEntity {
+        return FavoritesEntity(0, movie.title, movie.posterPath, movie.releaseDate,
             movie.voteAverage, movie.overview, movie.dateSearching, movie.filmNote, movie.idMovie)
     }
 }

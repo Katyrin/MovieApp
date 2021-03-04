@@ -17,9 +17,7 @@ fun convertMoviesDtoToModel(moviesDTO: MoviesDTO): List<Movie> {
     movies.forEach {
         list.add(Movie(it.title ?: "null", it.posterPath ?: "null",
             it.releaseDate ?: "null", it.voteAverage ?: "null",
-            it.overview ?: "null", it.genreIds ?: arrayOf(0),
-            it.idMovie ?: 0
-        ))
+            it.overview ?: "null", idMovie = it.idMovie ?: 0))
     }
     return list
 }

@@ -68,15 +68,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 supportFragmentManager.apply {
                     popBackStack()
                     beginTransaction()
-                            .add(R.id.container, SearchMoviesFragment
-                                    .newInstance(binding.textInputEditText.text.toString()))
+                            .add(
+                                R.id.container, SearchMoviesFragment
+                                    .newInstance(binding.textInputEditText.text.toString())
+                            )
                             .addToBackStack(null)
                             .commit()
                 }
 
                 inputManager.hideSoftInputFromWindow(
                     currentFocus?.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS)
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
 
                 binding.textInputEditText.clearFocus()
             }
@@ -104,10 +107,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun switchFragment(navPosition: BottomNavigationPosition): Boolean {
         val fragment = supportFragmentManager.findFragment(navPosition)
         if (fragment.isAdded) return false
+        removeAllStackFragments()
         detachFragment()
         attachFragment(fragment, navPosition.getTag())
         supportFragmentManager.executePendingTransactions()
         return true
+    }
+
+    private fun removeAllStackFragments() {
+        for (fragment in supportFragmentManager.fragments) {
+            if (fragment is BottomNavigationView) {
+                continue
+            } else if (fragment != null) {
+                supportFragmentManager.beginTransaction().remove(fragment).commit()
+            }
+        }
     }
 
     private fun FragmentManager.findFragment(position: BottomNavigationPosition): Fragment {
@@ -124,7 +138,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         if (fragment.isDetached) {
             supportFragmentManager.beginTransaction().attach(fragment).commit()
         } else {
-            supportFragmentManager.beginTransaction().add(R.id.container, fragment, tag).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, tag).commit()
         }
         supportFragmentManager.beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit()
@@ -141,8 +155,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 supportFragmentManager.apply {
                     popBackStack()
                     beginTransaction()
-                        .add(R.id.container, SettingsFragment.newInstance(binding))
-                        .addToBackStack("")
+                        .add(R.id.container, SettingsFragment.newInstance())
+                        .addToBackStack(null)
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.contacts -> {
+                supportFragmentManager.apply {
+                    popBackStack()
+                    beginTransaction()
+                        .add(R.id.container, ContentProviderFragment.newInstance())
+                        .addToBackStack(null)
                         .commitAllowingStateLoss()
                 }
                 true

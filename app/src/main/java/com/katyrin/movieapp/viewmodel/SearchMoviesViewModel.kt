@@ -2,13 +2,9 @@ package com.katyrin.movieapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.katyrin.movieapp.model.CORRUPTED_DATA
-import com.katyrin.movieapp.model.MoviesDTO
-import com.katyrin.movieapp.model.REQUEST_ERROR
-import com.katyrin.movieapp.model.SERVER_ERROR
-import com.katyrin.movieapp.repository.MoviesRepository
-import com.katyrin.movieapp.repository.MoviesRepositoryImpl
-import com.katyrin.movieapp.repository.RemoteDataSource
+import com.katyrin.movieapp.App
+import com.katyrin.movieapp.model.*
+import com.katyrin.movieapp.repository.*
 import com.katyrin.movieapp.utils.convertMoviesDtoToModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,12 +12,15 @@ import retrofit2.Response
 
 class SearchMoviesViewModel(
         val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-        private val moviesRepositoryImpl: MoviesRepository = MoviesRepositoryImpl(RemoteDataSource())
+        private val moviesRepositoryImpl: MoviesRepository = MoviesRepositoryImpl(RemoteDataSource()),
+        private val favoritesLiveData: MutableLiveData<AppState> = MutableLiveData(),
+        private val favoritesRepository: LocalRepository = LocalFavoritesRepositoryImpl(App.getFavoritesDao())
 ) : ViewModel() {
 
-    fun getSearchMoviesRemoteSource(language: String, includeAdult: Boolean, query: String) {
+    fun getSearchMoviesRemoteSource(language: String, includeAdult: Boolean,
+                                    query: String, minReleaseDate: String) {
         moviesRepositoryImpl.getSearchMoviesFromServer(
-                language, includeAdult, query, callBackSearchMovies)
+                language, includeAdult, query, minReleaseDate, callBackSearchMovies)
     }
 
     private val callBackSearchMovies = object : Callback<MoviesDTO> {
@@ -46,6 +45,27 @@ class SearchMoviesViewModel(
                 AppState.SuccessSearch(convertMoviesDtoToModel(serverResponse))
             }
         }
+    }
+
+    fun getFavoritesData() = favoritesLiveData
+
+    fun getAllFavorites() {
+        favoritesLiveData.value = AppState.Loading
+        Thread {
+            favoritesLiveData.postValue(AppState.SuccessSearch(favoritesRepository.getAllMovies()))
+        }.start()
+    }
+
+    fun deleteFavoriteMovieToDB(idMovie: Long) {
+        Thread {
+            favoritesRepository.deleteEntity(idMovie)
+        }.start()
+    }
+
+    fun saveFavoriteMovieToDB(movie: Movie) {
+        Thread {
+            favoritesRepository.saveEntity(movie)
+        }.start()
     }
 }
 

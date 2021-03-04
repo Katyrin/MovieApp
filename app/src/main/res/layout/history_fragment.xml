@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="@dimen/view_padding"
+    android:paddingRight="@dimen/view_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.HistoryFragment">
 
@@ -21,13 +23,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/my_browsing_history"
                 android:textSize="24sp"
-                android:layout_marginBottom="@dimen/view_padding"/>
+                android:paddingTop="@dimen/view_padding"
+                android:paddingBottom="@dimen/view_padding"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/historyRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/view_padding"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         </LinearLayout>
@@ -38,7 +40,7 @@
         android:id="@+id/loadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progressBar"

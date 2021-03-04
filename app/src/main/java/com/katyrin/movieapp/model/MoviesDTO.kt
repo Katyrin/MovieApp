@@ -33,39 +33,6 @@ data class ResultsDTO(
     @SerializedName("vote_average")
     val voteAverage: String?,
     val overview: String?,
-    @SerializedName("genre_ids")
-    val genreIds: Array<Int>?,
     @SerializedName("id")
     val idMovie: Long?
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ResultsDTO
-
-        if (title != other.title) return false
-        if (posterPath != other.posterPath) return false
-        if (releaseDate != other.releaseDate) return false
-        if (voteAverage != other.voteAverage) return false
-        if (overview != other.overview) return false
-        if (genreIds != null) {
-            if (other.genreIds == null) return false
-            if (!genreIds.contentEquals(other.genreIds)) return false
-        } else if (other.genreIds != null) return false
-        if (idMovie != other.idMovie) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = title?.hashCode() ?: 0
-        result = 31 * result + (posterPath?.hashCode() ?: 0)
-        result = 31 * result + (releaseDate?.hashCode() ?: 0)
-        result = 31 * result + (voteAverage?.hashCode() ?: 0)
-        result = 31 * result + (overview?.hashCode() ?: 0)
-        result = 31 * result + (genreIds?.contentHashCode() ?: 0)
-        result = 31 * result + idMovie.hashCode()
-        return result
-    }
-}
+)

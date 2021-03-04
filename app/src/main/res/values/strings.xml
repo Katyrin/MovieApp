@@ -17,4 +17,8 @@
     <string name="enter_note">Enter note</string>
     <string name="edit_note">Edit note</string>
     <string name="note">Note:</string>
+    <string name="contacts">Contacts</string>
+    <string name="average_vote_from">Average vote from:</string>
+    <string name="save">Save</string>
+    <string name="my_favorite_films">My favorite films:</string>
 </resources>

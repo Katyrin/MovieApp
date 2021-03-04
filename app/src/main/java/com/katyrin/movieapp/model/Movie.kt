@@ -10,40 +10,7 @@ data class Movie(
     val releaseDate: String = "",
     val voteAverage: String = "",
     val overview: String = "",
-    val genreIds: Array<Int> = arrayOf(0),
-    val idMovie: Long = 0,
     var dateSearching: String = "",
-    var filmNote: String = ""
-): Parcelable {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Movie
-
-        if (title != other.title) return false
-        if (posterPath != other.posterPath) return false
-        if (releaseDate != other.releaseDate) return false
-        if (voteAverage != other.voteAverage) return false
-        if (overview != other.overview) return false
-        if (!genreIds.contentEquals(other.genreIds)) return false
-        if (idMovie != other.idMovie) return false
-        if (dateSearching != other.dateSearching) return false
-        if (filmNote != other.filmNote) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = title.hashCode()
-        result = 31 * result + posterPath.hashCode()
-        result = 31 * result + releaseDate.hashCode()
-        result = 31 * result + voteAverage.hashCode()
-        result = 31 * result + overview.hashCode()
-        result = 31 * result + genreIds.contentHashCode()
-        result = 31 * result + idMovie.hashCode()
-        result = 31 * result + dateSearching.hashCode()
-        result = 31 * result + filmNote.hashCode()
-        return result
-    }
-}
+    var filmNote: String = "",
+    val idMovie: Long = 0,
+): Parcelable

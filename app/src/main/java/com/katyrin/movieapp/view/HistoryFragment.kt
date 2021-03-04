@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.katyrin.movieapp.R
 import com.katyrin.movieapp.databinding.HistoryFragmentBinding
 import com.katyrin.movieapp.model.Movie
 import com.katyrin.movieapp.viewmodel.AppState
@@ -16,17 +19,15 @@ class HistoryFragment : Fragment() {
     private val viewModel: HistoryViewModel by lazy {
         ViewModelProvider(this).get(HistoryViewModel::class.java)
     }
-    private val adapter: HistoryRVAdapter by lazy { HistoryRVAdapter() }
+    private val adapter: MoviesListRVAdapter by lazy { MoviesListRVAdapter(onLikeListener) }
     private lateinit var binding: HistoryFragmentBinding
-    private lateinit var listHistoryMovie: List<Movie>
+    private var listHistoryMovie: List<Movie> = listOf()
+    private var listFavoritesMovie: List<Movie> = listOf()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = HistoryFragmentBinding.inflate(inflater)
-        if (savedInstanceState != null) {
-            listHistoryMovie = savedInstanceState.getParcelableArrayList("HISTORY_MOVIES")!!
-        }
+        binding = HistoryFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -35,7 +36,29 @@ class HistoryFragment : Fragment() {
         binding.historyRV.adapter = adapter
         viewModel.getHistoryData().observe(viewLifecycleOwner, { renderHistoryData(it) })
         viewModel.getNoteData().observe(viewLifecycleOwner, { renderNoteData(it) })
-        viewModel.getAllHistory()
+        viewModel.getFavoritesData().observe(viewLifecycleOwner, { renderFavoritesData(it) })
+        viewModel.getAllFavorites()
+    }
+
+    private fun renderFavoritesData(appState: AppState) {
+        when (appState) {
+            is AppState.SuccessSearch -> {
+                listFavoritesMovie = appState.movies
+                viewModel.getAllHistory()
+            }
+            is AppState.Loading -> {
+                binding.historyRV.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            is AppState.Error -> {
+                binding.progressBar.visibility = View.GONE
+                binding.historyRV.createAndShow(
+                    "Error", "Reload",
+                    {
+                        viewModel.getAllFavorites()
+                    })
+            }
+        }
     }
 
     private fun renderHistoryData(appState: AppState) {
@@ -95,14 +118,29 @@ class HistoryFragment : Fragment() {
                 }
             }
         }
-        adapter.setData(listHistoryMovie)
+        adapter.setData(listHistoryMovie, listFavoritesMovie)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val arrayListMovies: ArrayList<Movie> = arrayListOf()
-        arrayListMovies.addAll(listHistoryMovie)
-        outState.putParcelableArrayList("HISTORY_MOVIES", arrayListMovies)
+    private val onLikeListener = object : FavoriteFilmOnClickListener {
+        override fun onFilmLiked(movie: Movie, favoriteImageView: ImageView) {
+
+            favoriteImageView.setImageDrawable(ResourcesCompat.getDrawable(
+                favoriteImageView.resources, R.drawable.ic_baseline_favorite_24,
+                null))
+            viewModel.saveFavoriteMovieToDB(movie)
+
+            listFavoritesMovie.map {
+                if (it.idMovie == movie.idMovie) {
+                    favoriteImageView.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            favoriteImageView.resources, R.drawable.ic_baseline_favorite_border_24,
+                            null
+                        )
+                    )
+                    viewModel.deleteFavoriteMovieToDB(movie.idMovie)
+                }
+            }
+        }
     }
 
     companion object {

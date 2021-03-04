@@ -16,14 +16,15 @@ class MoviesRepositoryImpl(private val remoteDataSource: RemoteDataSource): Movi
         withGenres: Int,
         includeAdult: Boolean,
         voteAverage: Int,
+        minReleaseDate: String,
         callback: Callback<MoviesDTO>
     ) {
         remoteDataSource.getMoviesByGenreDetails(language, sortBy, withGenres,
-                includeAdult, voteAverage, callback)
+                includeAdult, voteAverage, minReleaseDate, callback)
     }
 
     override fun getSearchMoviesFromServer(language: String, includeAdult: Boolean, query: String,
-                                           callback: Callback<MoviesDTO>) {
-        remoteDataSource.getSearchMovies(language, includeAdult, query, callback)
+                                           minReleaseDate: String, callback: Callback<MoviesDTO>) {
+        remoteDataSource.getSearchMovies(language, includeAdult, query, minReleaseDate, callback)
     }
 }
