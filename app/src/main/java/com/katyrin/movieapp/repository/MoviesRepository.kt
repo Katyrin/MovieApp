@@ -16,6 +16,7 @@ interface MoviesRepository {
         withGenres: Int,
         includeAdult: Boolean,
         voteAverage: Int,
+        minReleaseDate: String,
         callback: Callback<MoviesDTO>
     )
 
@@ -23,6 +24,7 @@ interface MoviesRepository {
             language: String,
             includeAdult: Boolean,
             query: String,
+            minReleaseDate: String,
             callback: Callback<MoviesDTO>
     )
 }

@@ -5,4 +5,5 @@ import com.katyrin.movieapp.model.Movie
 interface LocalRepository {
     fun getAllMovies(): List<Movie>
     fun saveEntity(movie: Movie)
+    fun deleteEntity(idMovie: Long)
 }

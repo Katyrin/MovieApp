@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/view_padding"
+    android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/view_padding"
     android:clickable="true"
-    android:focusable="true"
-    android:id="@+id/cardView">
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/itemImageView"
+        <RelativeLayout
             android:layout_width="160dp"
-            android:layout_height="200dp"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/poster" />
+            android:layout_height="200dp">
+
+            <ImageView
+                android:id="@+id/itemImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@string/poster"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/favoriteImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/layout_padding"
+                android:layout_marginEnd="@dimen/layout_padding"
+                android:layout_marginRight="@dimen/layout_padding"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/favorites"
+                app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/movieName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_padding"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="1"
-            android:layout_margin="@dimen/view_padding"/>
+            android:maxLines="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,23 +64,23 @@
                 android:id="@+id/yearTextView"
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_weight="2" />
 
             <ImageView
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
-                app:srcCompat="@android:drawable/btn_star_big_on"
-                android:contentDescription="@string/rating_star"/>
+                android:layout_weight="1"
+                android:contentDescription="@string/rating_star"
+                app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <TextView
                 android:id="@+id/ratingTextView"
                 android:layout_width="@dimen/zero"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_weight="1" />
 
         </LinearLayout>
 

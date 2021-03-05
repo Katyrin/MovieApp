@@ -18,13 +18,37 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/itemImageView"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/poster" />
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/itemImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:contentDescription="@string/poster" />
+
+                <ImageView
+                    android:id="@+id/favoriteImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/layout_padding"
+                    android:layout_marginEnd="@dimen/layout_padding"
+                    android:layout_marginRight="@dimen/layout_padding"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/favorites"
+                    app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/movieName"

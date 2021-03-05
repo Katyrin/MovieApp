@@ -1,19 +1,19 @@
 package com.katyrin.movieapp.view
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.katyrin.movieapp.R
 import com.katyrin.movieapp.databinding.RvVerticalBinding
-import com.katyrin.movieapp.model.BUNDLE_EXTRA
 import com.katyrin.movieapp.model.Genre
 import com.katyrin.movieapp.model.Movie
 import java.util.*
 
-class VerticalRVAdapter(private val genres: SortedMap<Genre, List<Movie>>
+class VerticalRVAdapter(
+    private val genres: SortedMap<Genre, List<Movie>>,
+    private val favoriteListMovie: List<Movie>,
+    private val onClickListener: FilmOnClickListener,
+    private val onLikeListener: FavoriteFilmOnClickListener
 ): RecyclerView.Adapter<VerticalRVAdapter.VerticalViewHolder>() {
 
     inner class VerticalViewHolder(private val itemBinding: RvVerticalBinding):
@@ -27,18 +27,8 @@ class VerticalRVAdapter(private val genres: SortedMap<Genre, List<Movie>>
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.HORIZONTAL
             itemBinding.horizontalRV.layoutManager = layoutManager
-            itemBinding.horizontalRV.adapter = MainRVAdapter(moviesList, object : FilmOnClickListener {
-                override fun onFilmClicked(movie: Movie) {
-                    val bundle = Bundle()
-                    bundle.putParcelable(BUNDLE_EXTRA, movie)
-
-                    val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                    val movieFragment = MovieFragment.newInstance(bundle)
-                    transaction.replace(R.id.container, movieFragment)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
-            })
+            itemBinding.horizontalRV.adapter =
+                MainRVAdapter(moviesList, favoriteListMovie, onClickListener, onLikeListener)
         }
     }
 

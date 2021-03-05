@@ -70,7 +70,7 @@ class MovieFragment : Fragment() {
 
         hideNote()
 
-        binding.enterNoteEditText.setOnEditorActionListener { v, actionId, event ->
+        binding.enterNoteEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 movie.filmNote = binding.enterNoteEditText.text.toString()
                 saveNote(movie)

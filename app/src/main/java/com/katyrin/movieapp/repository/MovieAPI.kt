@@ -20,7 +20,8 @@ interface MovieAPI {
         @Query("sort_by") sortBy: String,
         @Query("with_genres") withGenres: Int,
         @Query("include_adult") includeAdult: Boolean,
-        @Query("vote_average.gte") voteAverage: Int
+        @Query("vote_average.gte") voteAverage: Int,
+        @Query("primary_release_date.gte") minReleaseDate: String
     ): Call<MoviesDTO>
 
     @GET("3/search/movie")
@@ -28,6 +29,7 @@ interface MovieAPI {
             @Query("api_key") token: String,
             @Query("language") language: String,
             @Query("include_adult") includeAdult: Boolean,
-            @Query("query") query: String
+            @Query("query") query: String,
+            @Query("primary_release_date.gte") minReleaseDate: String
     ): Call<MoviesDTO>
 }
