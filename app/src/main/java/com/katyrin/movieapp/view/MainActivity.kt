@@ -1,9 +1,11 @@
 package com.katyrin.movieapp.view
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.Menu
@@ -12,6 +14,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -94,7 +98,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         navPosition = findNavigationPositionById(item.itemId)
-        return switchFragment(navPosition)
+        return if (navPosition == BottomNavigationPosition.MAP) {
+            checkPermission(navPosition)
+        } else {
+            switchFragment(navPosition)
+        }
     }
 
     private fun initBottomNavigation(savedInstanceState: Bundle?) {
@@ -172,6 +180,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+    }
+
+    private fun checkPermission(navPosition: BottomNavigationPosition): Boolean {
+        return when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) ->
+                switchFragment(navPosition)
+            else -> {
+                requestPermissions()
+                false
+            }
         }
     }
 }
