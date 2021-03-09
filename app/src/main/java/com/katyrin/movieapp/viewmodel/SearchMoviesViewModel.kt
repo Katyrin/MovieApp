@@ -52,7 +52,7 @@ class SearchMoviesViewModel(
     fun getAllFavorites() {
         favoritesLiveData.value = AppState.Loading
         Thread {
-            favoritesLiveData.postValue(AppState.SuccessSearch(favoritesRepository.getAllMovies()))
+            favoritesLiveData.postValue(AppState.SuccessFavorites(favoritesRepository.getAllMovies()))
         }.start()
     }
 

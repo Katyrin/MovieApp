@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.liveDataToObserve.observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.favoritesLiveData.observe(viewLifecycleOwner, { renderFavoritesData(it) })
+        viewModel.favoritesLiveData.observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getAllFavorites()
     }
 
@@ -56,12 +56,20 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun renderFavoritesData(appState: AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessSearch -> {
+            is AppState.SuccessFavorites -> {
                 listFavoritesMovie = appState.movies
                 getMoviesWithSettings()
             }
+            is AppState.SuccessMainQuery -> {
+                binding.loadingLayout.visibility = View.GONE
+                binding.mainRecyclerView.visibility = View.VISIBLE
+                setData(appState.movies)
+            }
+            is AppState.SuccessSearch -> {}
+            is AppState.SuccessHistory -> {}
+            is AppState.SuccessNote -> {}
             is AppState.Loading -> {
                 binding.mainRecyclerView.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
@@ -71,28 +79,8 @@ class MainFragment : Fragment() {
                 binding.progressBar.createAndShow(
                     "Error", "Reload",
                     {
-                        viewModel.getAllFavorites()
+                        getMoviesWithSettings()
                     })
-            }
-        }
-    }
-
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                binding.loadingLayout.visibility = View.GONE
-                binding.mainRecyclerView.visibility = View.VISIBLE
-                setData(appState.movies)
-            }
-            is AppState.Loading -> {
-                binding.mainRecyclerView.visibility = View.GONE
-                binding.loadingLayout.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                requireView().createAndShow(
-                    "Error", "Reload", { getMoviesWithSettings() },
-                    Snackbar.LENGTH_INDEFINITE)
             }
         }
     }

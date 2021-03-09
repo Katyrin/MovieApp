@@ -37,40 +37,26 @@ class FavoritesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.favoriteRV.adapter = adapter
-        viewModel.getFavoritesData().observe(viewLifecycleOwner, { renderFavoritesData(it) })
-        viewModel.getNoteData().observe(viewLifecycleOwner, { renderNoteData(it) })
+        viewModel.getFavoritesData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getNoteData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getAllFavorites()
     }
 
-    private fun renderFavoritesData(appState: AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessSearch -> {
+            is AppState.SuccessFavorites -> {
                 listFavoritesMovie = appState.movies
                 viewModel.getAllNotes()
             }
-            is AppState.Loading -> {
-                binding.favoriteRV.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.progressBar.visibility = View.GONE
-                binding.favoriteRV.createAndShow(
-                    "Error", "Reload",
-                    {
-                        viewModel.getAllFavorites()
-                    })
-            }
-        }
-    }
-
-    private fun renderNoteData(appState: AppState) {
-        when (appState) {
-            is AppState.SuccessSearch -> {
+            is AppState.SuccessNote -> {
                 binding.favoriteRV.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
 
                 startRVAdapter(appState.movies)
             }
+            is AppState.SuccessSearch -> {}
+            is AppState.SuccessHistory -> {}
+            is AppState.SuccessMainQuery -> {}
             is AppState.Loading -> {
                 binding.favoriteRV.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE

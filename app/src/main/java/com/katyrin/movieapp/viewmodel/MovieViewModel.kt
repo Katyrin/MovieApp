@@ -31,7 +31,7 @@ class MovieViewModel(
     fun getAllNotes() {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            liveDataToObserve.postValue(AppState.SuccessSearch(noteRepository.getAllMovies()))
+            liveDataToObserve.postValue(AppState.SuccessNote(noteRepository.getAllMovies()))
         }.start()
     }
 

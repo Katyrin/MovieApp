@@ -26,7 +26,6 @@ import com.katyrin.movieapp.databinding.MainActivityBinding
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: MainActivityBinding
-
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.MOVIES
     private val myReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
@@ -64,26 +63,24 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commitNow()
         }
         initBottomNavigation(savedInstanceState)
+        initTextInputEditText()
+    }
 
+    private fun initTextInputEditText() {
         val inputManager: InputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        binding.textInputEditText.setOnEditorActionListener { v, actionId, event ->
+        binding.textInputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 supportFragmentManager.apply {
                     popBackStack()
                     beginTransaction()
-                            .add(
-                                R.id.container, SearchMoviesFragment
-                                    .newInstance(binding.textInputEditText.text.toString())
-                            )
-                            .addToBackStack(null)
-                            .commit()
+                        .add(R.id.container, SearchMoviesFragment
+                            .newInstance(binding.textInputEditText.text.toString()))
+                        .addToBackStack(null)
+                        .commit()
                 }
-
-                inputManager.hideSoftInputFromWindow(
-                    currentFocus?.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS
-                )
+                inputManager.hideSoftInputFromWindow(currentFocus?.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS)
 
                 binding.textInputEditText.clearFocus()
             }
@@ -93,7 +90,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.textInputLayout.setEndIconOnClickListener {
             binding.textInputEditText.setText("")
         }
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -185,7 +181,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
-            this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+            this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_READ_CONTACTS)
     }
 
     private fun checkPermission(navPosition: BottomNavigationPosition): Boolean {

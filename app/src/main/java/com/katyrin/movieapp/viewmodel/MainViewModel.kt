@@ -39,7 +39,7 @@ class MainViewModel(
     fun getAllFavorites() {
         favoritesLiveData.value = AppState.Loading
         Thread {
-            favoritesLiveData.postValue(AppState.SuccessSearch(favoritesRepository.getAllMovies()))
+            favoritesLiveData.postValue(AppState.SuccessFavorites(favoritesRepository.getAllMovies()))
         }.start()
     }
 
@@ -82,10 +82,10 @@ class MainViewModel(
                         } else {
                             mutableMap[genre] = convertMoviesDtoToModel(serverResponse)
                             if (size <= 0) {
-                                AppState.Success(mutableMap.toSortedMap(compareBy { it.name }))
+                                AppState.SuccessMainQuery(mutableMap.toSortedMap(compareBy { it.name }))
                             }
                             else
-                                AppState.LoadingSecondQuery
+                                AppState.Loading
                         }
                     }
                 }
@@ -117,7 +117,7 @@ class MainViewModel(
                     getMoviesFromRemoteSource(language, "popularity.desc",
                         it, --size, isDataShowAdult, voteAverage, minReleaseDate)
                 }
-                AppState.LoadingSecondQuery
+                AppState.Loading
             }
         }
     }

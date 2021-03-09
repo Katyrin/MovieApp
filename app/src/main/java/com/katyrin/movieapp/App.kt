@@ -2,10 +2,7 @@ package com.katyrin.movieapp
 
 import android.app.Application
 import androidx.room.Room
-import com.katyrin.movieapp.model.room.FavoritesDao
-import com.katyrin.movieapp.model.room.HistoryDao
-import com.katyrin.movieapp.model.room.MainDataBase
-import com.katyrin.movieapp.model.room.NoteDao
+import com.katyrin.movieapp.model.room.*
 
 class App: Application() {
     override fun onCreate() {
@@ -41,6 +38,10 @@ class App: Application() {
 
         fun getFavoritesDao(): FavoritesDao {
             return getMainDB()!!.favoritesDao()
+        }
+
+        fun getCinemasDao(): CinemasDao {
+            return getMainDB()!!.cinemasDao()
         }
     }
 }

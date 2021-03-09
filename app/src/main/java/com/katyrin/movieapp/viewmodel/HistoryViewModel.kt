@@ -24,7 +24,7 @@ class HistoryViewModel(
     fun getAllFavorites() {
         favoritesLiveData.value = AppState.Loading
         Thread {
-            favoritesLiveData.postValue(AppState.SuccessSearch(favoritesRepository.getAllMovies()))
+            favoritesLiveData.postValue(AppState.SuccessFavorites(favoritesRepository.getAllMovies()))
         }.start()
     }
 
@@ -46,14 +46,14 @@ class HistoryViewModel(
     fun getAllHistory() {
         historyLiveData.value = AppState.Loading
         Thread {
-            historyLiveData.postValue(AppState.SuccessSearch(historyRepository.getAllMovies()))
+            historyLiveData.postValue(AppState.SuccessHistory(historyRepository.getAllMovies()))
         }.start()
     }
 
     fun getAllNotes() {
         noteLiveData.value = AppState.Loading
         Thread {
-            noteLiveData.postValue(AppState.SuccessSearch(noteRepository.getAllMovies()))
+            noteLiveData.postValue(AppState.SuccessNote(noteRepository.getAllMovies()))
         }.start()
     }
 }

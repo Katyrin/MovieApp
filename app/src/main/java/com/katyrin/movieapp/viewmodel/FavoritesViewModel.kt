@@ -21,14 +21,14 @@ class FavoritesViewModel(
     fun getAllFavorites() {
         favoritesLiveData.value = AppState.Loading
         Thread {
-            favoritesLiveData.postValue(AppState.SuccessSearch(favoritesRepository.getAllMovies()))
+            favoritesLiveData.postValue(AppState.SuccessFavorites(favoritesRepository.getAllMovies()))
         }.start()
     }
 
     fun getAllNotes() {
         noteLiveData.value = AppState.Loading
         Thread {
-            noteLiveData.postValue(AppState.SuccessSearch(noteRepository.getAllMovies()))
+            noteLiveData.postValue(AppState.SuccessNote(noteRepository.getAllMovies()))
         }.start()
     }
 
