@@ -118,12 +118,14 @@ class MovieFragment : Fragment() {
 
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessSearch -> {
+            is AppState.SuccessNote -> {
                 checkNote(appState.movies)
             }
-            is AppState.Loading -> {
-
-            }
+            is AppState.SuccessMainQuery -> { }
+            is AppState.SuccessFavorites -> { }
+            is AppState.SuccessSearch -> { }
+            is AppState.SuccessHistory -> { }
+            is AppState.Loading -> { }
             is AppState.Error -> {
                 requireView().createAndShow(
                     "Error", "Reload", { viewModel.getData() },

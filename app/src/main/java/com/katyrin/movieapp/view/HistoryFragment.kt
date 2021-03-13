@@ -34,18 +34,33 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.historyRV.adapter = adapter
-        viewModel.getHistoryData().observe(viewLifecycleOwner, { renderHistoryData(it) })
-        viewModel.getNoteData().observe(viewLifecycleOwner, { renderNoteData(it) })
-        viewModel.getFavoritesData().observe(viewLifecycleOwner, { renderFavoritesData(it) })
+        viewModel.getHistoryData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getNoteData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getFavoritesData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getAllFavorites()
     }
 
-    private fun renderFavoritesData(appState: AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessSearch -> {
+            is AppState.SuccessFavorites -> {
                 listFavoritesMovie = appState.movies
                 viewModel.getAllHistory()
             }
+            is AppState.SuccessHistory -> {
+                binding.historyRV.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+
+                listHistoryMovie = appState.movies
+                viewModel.getAllNotes()
+            }
+            is AppState.SuccessNote -> {
+                binding.historyRV.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+
+                startRVAdapter(appState.movies)
+            }
+            is AppState.SuccessMainQuery -> { }
+            is AppState.SuccessSearch -> { }
             is AppState.Loading -> {
                 binding.historyRV.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
@@ -56,55 +71,6 @@ class HistoryFragment : Fragment() {
                     "Error", "Reload",
                     {
                         viewModel.getAllFavorites()
-                    })
-            }
-        }
-    }
-
-    private fun renderHistoryData(appState: AppState) {
-        when (appState) {
-            is AppState.SuccessSearch -> {
-                binding.historyRV.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-
-                listHistoryMovie = appState.movies
-                viewModel.getAllNotes()
-            }
-            is AppState.Loading -> {
-                binding.historyRV.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.historyRV.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-                binding.historyRV.createAndShow(
-                    "Error", "Reload",
-                    {
-                        viewModel.getAllHistory()
-                    })
-            }
-        }
-    }
-
-    private fun renderNoteData(appState: AppState) {
-        when (appState) {
-            is AppState.SuccessSearch -> {
-                binding.historyRV.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-
-                startRVAdapter(appState.movies)
-            }
-            is AppState.Loading -> {
-                binding.historyRV.visibility = View.GONE
-                binding.progressBar.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.historyRV.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-                binding.historyRV.createAndShow(
-                    "Error", "Reload",
-                    {
-                        viewModel.getAllHistory()
                     })
             }
         }

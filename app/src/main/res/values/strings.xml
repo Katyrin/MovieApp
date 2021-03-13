@@ -21,4 +21,19 @@
     <string name="average_vote_from">Average vote from:</string>
     <string name="save">Save</string>
     <string name="my_favorite_films">My favorite films:</string>
+    <string name="map">Map</string>
+    <string name="dialog_button_close">Cancel</string>
+    <string name="google_maps">Google Maps</string>
+    <string name="default_address">Red Square, 1, Moscow</string>
+    <string name="button_search_map">Search</string>
+    <string name="add_cinema">Add Cinema</string>
+    <string name="error_dialog_message">You don\'t enter cinema name</string>
+    <string name="choice_of_cinemas">Choice of cinemas</string>
+    <string name="choice_of_cinemas_dialog_message">
+        Choose the cinemas convenient for you on the map.
+        The application will notify you when you are near</string>
+    <string name="select_cinemas">Select cinemas</string>
+    <string name="add_marker_dialog_message">Enter name of the cinema</string>
+    <string name="remove_cinema">Remove Cinema</string>
+
 </resources>

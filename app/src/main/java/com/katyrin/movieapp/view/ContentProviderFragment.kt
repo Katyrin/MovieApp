@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment
 import com.katyrin.movieapp.R
 import com.katyrin.movieapp.databinding.ContentProviderFragmentBinding
 
-const val REQUEST_CODE = 42
-const val REQUEST_CODE2 = 54
+const val REQUEST_CODE_READ_CONTACTS = 42
+const val REQUEST_CODE_CALL_PHONE = 54
 
 class ContentProviderFragment: Fragment() {
     private var _binding: ContentProviderFragmentBinding? = null
@@ -55,7 +55,7 @@ class ContentProviderFragment: Fragment() {
         grantResults: IntArray
     ) {
         when(requestCode) {
-            REQUEST_CODE -> {
+            REQUEST_CODE_READ_CONTACTS -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED))
                     getContacts()
                 else {
@@ -137,11 +137,11 @@ class ContentProviderFragment: Fragment() {
     }
 
     private fun requestContactsPermission() {
-        requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), REQUEST_CODE)
+        requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), REQUEST_CODE_READ_CONTACTS)
     }
 
     private fun requestCallPermission() {
-        requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), REQUEST_CODE2)
+        requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), REQUEST_CODE_CALL_PHONE)
     }
 
     override fun onDestroyView() {
