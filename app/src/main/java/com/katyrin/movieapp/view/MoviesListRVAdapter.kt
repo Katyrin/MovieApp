@@ -70,7 +70,9 @@ class MoviesListRVAdapter(
                 true -> {
                     favoriteImageView.setImageDrawable(
                         ResourcesCompat.getDrawable(
-                            favoriteImageView.resources, R.drawable.ic_baseline_favorite_24, null
+                            favoriteImageView.resources,
+                            R.drawable.ic_baseline_favorite_24,
+                            null
                         )
                     )
                 }

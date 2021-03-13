@@ -35,5 +35,34 @@
     <string name="select_cinemas">Select cinemas</string>
     <string name="add_marker_dialog_message">Enter name of the cinema</string>
     <string name="remove_cinema">Remove Cinema</string>
+    <string name="on_receive_error">onReceive: Error receiving geofence event…</string>
+    <string name="notification_message">Have some free time? Come watch your favorite movies</string>
+    <string name="geofence_transition_enter">GEOFENCE_TRANSITION_ENTER</string>
+    <string name="intent_null">intent is equals null</string>
+    <string name="geofence">Geofence</string>
+    <string name="geofence_notification">Geofence notification</string>
+    <string name="main_notification">Main notification</string>
+    <string name="main_notification_server">Main notification from server</string>
+    <string name="access_to_contacts">Access to contacts</string>
+    <string name="explanation">Explanation</string>
+    <string name="grant_access">Grant access</string>
+    <string name="do_not">Do not</string>
+    <string name="want_call_number">Are you sure you want to call this number?</string>
+    <string name="call_number">Call Number</string>
+    <string name="cancel">Cancel</string>
+    <string name="error">Error</string>
+    <string name="reload">Reload</string>
+    <string name="near">Near</string>
+    <string name="on_receive">onReceive:</string>
+    <string name="geofence_not_available">GEOFENCE_NOT_AVAILABLE</string>
+    <string name="too_many_geofences">GEOFENCE_TOO_MANY_GEOFENCES</string>
+    <string name="too_many_pending_intents">GEOFENCE_TOO_MANY_PENDING_INTENTS</string>
+    <string name="received_event_value">Received event, value:</string>
+    <string name="success">Success</string>
+    <string name="add_marker_dialog">AddMarkerDialog</string>
+    <string name="remove_marker_dialog">RemoveMarkerDialog</string>
+    <string name="on_success_geofence_removed">onSuccess: Geofence Removed…</string>
+    <string name="on_success_geofence_added">onSuccess: Geofence Added…</string>
+    <string name="on_failure">onFailure:</string>
 
 </resources>

@@ -68,7 +68,7 @@ class HistoryFragment : Fragment() {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
                 binding.historyRV.createAndShow(
-                    "Error", "Reload",
+                    getString(R.string.error), getString(R.string.reload),
                     {
                         viewModel.getAllFavorites()
                     })

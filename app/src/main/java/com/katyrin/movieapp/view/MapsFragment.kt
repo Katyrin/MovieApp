@@ -71,6 +71,8 @@ class MapsFragment : Fragment() {
             }
             activityMyLocation(it)
         }
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderCinemasData(it) })
+        viewModel.getAllCinemas()
     }
 
     private fun onMapLongClick(latLng: LatLng) {
@@ -106,13 +108,12 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        viewModel.getLiveData().observe(viewLifecycleOwner, { renderCinemasData(it) })
-
-        viewModel.getAllCinemas()
-        mapFragment?.getMapAsync(callback)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(callback)
         initSearchByAddress()
-        showAlertDialogInfo()
+        if (savedInstanceState == null) {
+            showAlertDialogInfo()
+        }
     }
 
     private fun renderCinemasData(cinemas: List<Cinema>) {
@@ -168,7 +169,8 @@ class MapsFragment : Fragment() {
             latLng
         )
         addMarkerDialog.setOnDialogListener(addMarkerDialogListener)
-        addMarkerDialog.show(requireActivity().supportFragmentManager, "AddMarkerDialog")
+        addMarkerDialog.show(requireActivity().supportFragmentManager,
+            getString(R.string.add_marker_dialog))
     }
 
     private fun createRemoveMarkerDialog( marker: Marker) {
@@ -179,7 +181,8 @@ class MapsFragment : Fragment() {
             marker = marker
         )
         removeMarkerDialog.setOnDialogListener(removeMarkerDialogListener)
-        removeMarkerDialog.show(requireActivity().supportFragmentManager, "RemoveMarkerDialog")
+        removeMarkerDialog.show(requireActivity().supportFragmentManager,
+            getString(R.string.remove_marker_dialog))
     }
 
     private fun getAddressAsync(location: LatLng) {
@@ -260,11 +263,11 @@ class MapsFragment : Fragment() {
         geofenceList.clear()
         geofencingClient.removeGeofences(pendingIntent)
             .addOnSuccessListener {
-                Log.d(TAG, "onSuccess: Geofence Removed...")
+                Log.d(TAG, getString(R.string.on_success_geofence_removed))
             }
             .addOnFailureListener{ e ->
                 val errorMessage: String = geofenceHelper.getErrorString(e)
-                Log.d(TAG, "onFailure: $errorMessage")
+                Log.d(TAG, "${getString(R.string.on_failure)} $errorMessage")
             }
     }
 
@@ -277,11 +280,11 @@ class MapsFragment : Fragment() {
             val geofencingRequest: GeofencingRequest = geofenceHelper.getGeofencingRequest(geofenceList)
             geofencingClient.addGeofences(geofencingRequest, pendingIntent)
                 .addOnSuccessListener {
-                    Log.d(TAG, "onSuccess: Geofence Added...")
+                    Log.d(TAG, getString(R.string.on_success_geofence_added))
                 }
                 .addOnFailureListener{ e ->
                     val errorMessage: String = geofenceHelper.getErrorString(e)
-                    Log.d(TAG, "onFailure: $errorMessage")
+                    Log.d(TAG, "${getString(R.string.on_failure)} $errorMessage")
                 }
         }
     }

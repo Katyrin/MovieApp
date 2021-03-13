@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589528718100",
+    "project_id": "movie-app-caa07",
+    "storage_bucket": "movie-app-caa07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589528718100:android:b8b0773e3ac1ad72490001",
+        "android_client_info": {
+          "package_name": "com.katyrin.movieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589528718100-acq3v7i38hd5bu7u1a4742ej2ifrs4no.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJylEkR9az-XdriUd1tUx-JGQg5hizMEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589528718100-acq3v7i38hd5bu7u1a4742ej2ifrs4no.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
