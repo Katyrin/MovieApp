@@ -25,7 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/view_padding"
         android:singleLine="true"
-        android:imeOptions="actionDone"/>
+        android:imeOptions="actionDone"
+        android:inputType="textPostalAddress"
+        android:hint="@string/cinema"
+        android:autofillHints="@string/cinema" />
 
     <TextView
         android:id="@+id/errorMessageDialog"

@@ -56,40 +56,7 @@ class MainViewModel(
     fun getMoviesFromRemoteSource(language: String,  sortBy: String, genre: Genre, size: Int,
                                   includeAdult: Boolean, voteAverage: Int, minReleaseDate: String) {
         moviesRepositoryImpl.getMoviesByGenreFromServer(language, sortBy, genre.id, includeAdult,
-                voteAverage, minReleaseDate, object : Callback<MoviesDTO> {
-                    override fun onResponse(call: Call<MoviesDTO>, response: Response<MoviesDTO>) {
-                        val serverResponse: MoviesDTO? = response.body()
-                        liveDataToObserve.postValue(
-                                if (response.isSuccessful && serverResponse != null) {
-                                    checkResponse(serverResponse)
-                                } else {
-                                    AppState.Error(Throwable(SERVER_ERROR))
-                                }
-                        )
-                    }
-                    override fun onFailure(call: Call<MoviesDTO>, t: Throwable) {
-                        liveDataToObserve.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
-                    }
-                    private fun checkResponse(serverResponse: MoviesDTO): AppState {
-                        val results = serverResponse.results
-                        return if (results == null ||
-                                results[0].title == null ||
-                                results[0].posterPath == null ||
-                                results[0].releaseDate == null ||
-                                results[0].voteAverage == null ||
-                                results[0].overview == null ) {
-                                    AppState.Error(Throwable(CORRUPTED_DATA))
-                        } else {
-                            mutableMap[genre] = convertMoviesDtoToModel(serverResponse)
-                            if (size <= 0) {
-                                AppState.SuccessMainQuery(mutableMap.toSortedMap(compareBy { it.name }))
-                            }
-                            else
-                                AppState.Loading
-                        }
-                    }
-                }
-        )
+                voteAverage, minReleaseDate, callBackMovies(genre, size))
     }
 
     private val callBackGenres = object : Callback<GenresDTO> {
@@ -118,6 +85,40 @@ class MainViewModel(
                         it, --size, isDataShowAdult, voteAverage, minReleaseDate)
                 }
                 AppState.Loading
+            }
+        }
+    }
+
+    private fun callBackMovies(genre: Genre, size: Int) = object : Callback<MoviesDTO> {
+        override fun onResponse(call: Call<MoviesDTO>, response: Response<MoviesDTO>) {
+            val serverResponse: MoviesDTO? = response.body()
+            liveDataToObserve.postValue(
+                    if (response.isSuccessful && serverResponse != null) {
+                        checkResponse(serverResponse)
+                    } else {
+                        AppState.Error(Throwable(SERVER_ERROR))
+                    }
+            )
+        }
+        override fun onFailure(call: Call<MoviesDTO>, t: Throwable) {
+            liveDataToObserve.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
+        }
+        private fun checkResponse(serverResponse: MoviesDTO): AppState {
+            val results = serverResponse.results
+            return if (results == null ||
+                    results[0].title == null ||
+                    results[0].posterPath == null ||
+                    results[0].releaseDate == null ||
+                    results[0].voteAverage == null ||
+                    results[0].overview == null ) {
+                AppState.Error(Throwable(CORRUPTED_DATA))
+            } else {
+                mutableMap[genre] = convertMoviesDtoToModel(serverResponse)
+                if (size <= 0) {
+                    AppState.SuccessMainQuery(mutableMap.toSortedMap(compareBy { it.name }))
+                }
+                else
+                    AppState.Loading
             }
         }
     }

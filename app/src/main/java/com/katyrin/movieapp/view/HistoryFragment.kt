@@ -59,8 +59,6 @@ class HistoryFragment : Fragment() {
 
                 startRVAdapter(appState.movies)
             }
-            is AppState.SuccessMainQuery -> { }
-            is AppState.SuccessSearch -> { }
             is AppState.Loading -> {
                 binding.historyRV.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
@@ -72,6 +70,9 @@ class HistoryFragment : Fragment() {
                     {
                         viewModel.getAllFavorites()
                     })
+            }
+            else -> {
+                binding.historyRV.createAndShow(getString(R.string.unknown_app_state))
             }
         }
     }
