@@ -77,7 +77,7 @@ class MainFragment : Fragment() {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
                 binding.progressBar.createAndShow(
-                    "Error", "Reload",
+                    getString(R.string.error), getString(R.string.reload),
                     {
                         getMoviesWithSettings()
                     })
@@ -92,7 +92,7 @@ class MainFragment : Fragment() {
         binding.mainRecyclerView.adapter =
             VerticalRVAdapter(genres, listFavoritesMovie, onClickListener, onLikeListener)
 
-        requireView().createAndShow("Success", length = Snackbar.LENGTH_LONG)
+        requireView().createAndShow(getString(R.string.success), length = Snackbar.LENGTH_LONG)
     }
 
     private val onClickListener = object : FilmOnClickListener {

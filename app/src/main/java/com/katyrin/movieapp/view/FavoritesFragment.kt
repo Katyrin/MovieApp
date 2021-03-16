@@ -64,7 +64,7 @@ class FavoritesFragment: Fragment() {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
                 binding.favoriteRV.createAndShow(
-                    "Error", "Reload",
+                    getString(R.string.error), getString(R.string.reload),
                     {
                         viewModel.getAllFavorites()
                     })

@@ -70,7 +70,7 @@ class SearchMoviesFragment : Fragment() {
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
                 binding.searchMoviesRV.createAndShow(
-                    "Error", "Reload",
+                    getString(R.string.error), getString(R.string.reload),
                     {
                         viewModel.getAllFavorites()
                     })
@@ -95,7 +95,7 @@ class SearchMoviesFragment : Fragment() {
         binding.searchMoviesRV.layoutManager = layoutManager
         binding.searchMoviesRV.adapter =
             SearchMoviesRVAdapter(movies, listFavoritesMovie, onLikeListener, onClickListener)
-        binding.searchMoviesRV.createAndShow("Success", length = Snackbar.LENGTH_LONG)
+        binding.searchMoviesRV.createAndShow(getString(R.string.success), length = Snackbar.LENGTH_LONG)
     }
 
     private val onClickListener = object : FilmOnClickListener {

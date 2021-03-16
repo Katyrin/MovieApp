@@ -9,6 +9,7 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofenceStatusCodes
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.maps.model.LatLng
+import com.katyrin.movieapp.R
 
 
 class GeofenceHelper(base: Context) : ContextWrapper(base) {
@@ -41,16 +42,18 @@ class GeofenceHelper(base: Context) : ContextWrapper(base) {
     fun getErrorString(e: Exception): String {
         if (e is ApiException) {
             when (e.statusCode) {
-                GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE -> return "GEOFENCE_NOT_AVAILABLE"
-                GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES -> return "GEOFENCE_TOO_MANY_GEOFENCES"
-                GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS -> return "GEOFENCE_TOO_MANY_PENDING_INTENTS"
+                GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE ->
+                    return getString(R.string.geofence_not_available)
+                GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES ->
+                    return getString(R.string.too_many_geofences)
+                GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS ->
+                    return getString(R.string.too_many_pending_intents)
             }
         }
         return e.localizedMessage!!
     }
 
     companion object {
-        private const val TAG = "GeofenceHelper"
         fun newInstance(context: Context) = GeofenceHelper(context)
     }
 }

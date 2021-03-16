@@ -61,12 +61,12 @@ class ContentProviderFragment: Fragment() {
                 else {
                     context?.let {
                         AlertDialog.Builder(it)
-                            .setTitle("Access to contacts")
-                            .setMessage("Explanation")
-                            .setPositiveButton("Grant access") { _, _ ->
+                            .setTitle(getString(R.string.access_to_contacts))
+                            .setMessage(getString(R.string.explanation))
+                            .setPositiveButton(getString(R.string.grant_access)) { _, _ ->
                                 requestContactsPermission()
                             }
-                            .setNegativeButton("Do not") { dialog, _ ->
+                            .setNegativeButton(getString(R.string.do_not)) { dialog, _ ->
                                 dialog.dismiss()
                             }
                             .create()
@@ -125,11 +125,11 @@ class ContentProviderFragment: Fragment() {
     private fun openCallRequestAlertDialog( context: Context, phoneNumber: String) {
         AlertDialog.Builder(context)
             .setTitle(phoneNumber)
-            .setMessage("Are you sure you want to call this number?")
-            .setPositiveButton("Call Number") { _, _ ->
+            .setMessage(getString(R.string.want_call_number))
+            .setPositiveButton(getString(R.string.call_number)) { _, _ ->
                 startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber")))
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()

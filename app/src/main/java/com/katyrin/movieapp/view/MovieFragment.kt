@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.katyrin.movieapp.R
 import com.katyrin.movieapp.databinding.MovieFragmentBinding
 import com.katyrin.movieapp.model.BUNDLE_EXTRA
 import com.katyrin.movieapp.model.IMAGE_BASE_URL
@@ -128,7 +129,7 @@ class MovieFragment : Fragment() {
             is AppState.Loading -> { }
             is AppState.Error -> {
                 requireView().createAndShow(
-                    "Error", "Reload", { viewModel.getData() },
+                    getString(R.string.error), getString(R.string.reload), { viewModel.getData() },
                     Snackbar.LENGTH_INDEFINITE
                 )
             }

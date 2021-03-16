@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             runOnUiThread {
                 Toast.makeText(
                     this@MainActivity,
-                    "Received event, value: $activeNetwork",
+                    "${getString(R.string.received_event_value)} $activeNetwork",
                     Toast.LENGTH_LONG
                 ).show()
             }
