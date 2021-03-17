@@ -23,7 +23,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/default_address"/>
+            android:hint="@string/default_address"
+            android:autofillHints="@string/default_address" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSearch"

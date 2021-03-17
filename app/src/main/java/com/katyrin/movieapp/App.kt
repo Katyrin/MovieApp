@@ -1,13 +1,21 @@
 package com.katyrin.movieapp
 
 import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
 import androidx.room.Room
 import com.katyrin.movieapp.model.room.*
+
 
 class App: Application() {
     override fun onCreate() {
         super.onCreate()
         appInstance = this
+    }
+
+    override fun attachBaseContext(context: Context?) {
+        super.attachBaseContext(context)
+        MultiDex.install(this)
     }
 
     companion object {
@@ -21,7 +29,8 @@ class App: Application() {
                     if (db == null) {
                         db = Room.databaseBuilder(
                             appInstance.applicationContext,
-                            MainDataBase::class.java, DB_NAME).build()
+                            MainDataBase::class.java, DB_NAME
+                        ).build()
                     }
                 }
             }

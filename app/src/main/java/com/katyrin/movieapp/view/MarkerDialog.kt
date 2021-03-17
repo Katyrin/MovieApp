@@ -35,7 +35,6 @@ class MarkerDialog(
         binding.positiveButtonDialog.text = title
         binding.editTextDialog.visibility = editTextVisibility
         binding.positiveButtonDialog.setOnClickListener {
-
             if (dialogListener.setPositiveButton(binding, latLng, marker))
                 dismiss()
         }
@@ -45,6 +44,4 @@ class MarkerDialog(
 
         return binding.root
     }
-
-
 }

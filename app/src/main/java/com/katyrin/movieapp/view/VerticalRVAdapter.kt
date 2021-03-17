@@ -20,7 +20,7 @@ class VerticalRVAdapter(
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(genre: Genre) {
-            itemBinding.genre.text = genre.name.capitalize(Locale.ROOT)
+            itemBinding.genre.text = genre.name.capitalize(Locale.getDefault())
         }
         fun bind(moviesList: List<Movie>) {
             val context = itemBinding.horizontalRV.context

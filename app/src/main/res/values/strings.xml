@@ -5,7 +5,6 @@
     <string name="rating_star">Rating star</string>
     <string name="movies">Movies</string>
     <string name="favorites">Favorites</string>
-    <string name="rating">Rating</string>
     <string name="setting">Setting</string>
     <string name="adult_content">Adult content</string>
     <string name="search_movie">Search movie</string>
@@ -13,7 +12,6 @@
     <string name="my_browsing_history">My browsing history</string>
     <string name="history">History</string>
     <string name="date_viewed">Date viewed:</string>
-    <string name="write_note">Write note</string>
     <string name="enter_note">Enter note</string>
     <string name="edit_note">Edit note</string>
     <string name="note">Note:</string>
@@ -23,7 +21,6 @@
     <string name="my_favorite_films">My favorite films:</string>
     <string name="map">Map</string>
     <string name="dialog_button_close">Cancel</string>
-    <string name="google_maps">Google Maps</string>
     <string name="default_address">Red Square, 1, Moscow</string>
     <string name="button_search_map">Search</string>
     <string name="add_cinema">Add Cinema</string>
@@ -64,5 +61,7 @@
     <string name="on_success_geofence_removed">onSuccess: Geofence Removed…</string>
     <string name="on_success_geofence_added">onSuccess: Geofence Added…</string>
     <string name="on_failure">onFailure:</string>
+    <string name="unknown_app_state">"Unknown app state"</string>
+    <string name="cinema">Cinema</string>
 
 </resources>

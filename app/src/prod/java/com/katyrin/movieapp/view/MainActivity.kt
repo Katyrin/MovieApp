@@ -27,29 +27,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private lateinit var binding: MainActivityBinding
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.MOVIES
-    private val myReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, p1: Intent?) {
-            val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetwork = connectivityManager.activeNetworkInfo
-            runOnUiThread {
-                Toast.makeText(
-                    this@MainActivity,
-                    "${getString(R.string.received_event_value)} $activeNetwork",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(myReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(myReceiver)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,16 +142,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
                 true
             }
-            R.id.contacts -> {
-                supportFragmentManager.apply {
-                    popBackStack()
-                    beginTransaction()
-                        .add(R.id.container, ContentProviderFragment.newInstance())
-                        .addToBackStack(null)
-                        .commitAllowingStateLoss()
-                }
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -194,5 +161,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 false
             }
         }
+    }
+
+    companion object {
+        const val REQUEST_CODE_READ_CONTACTS = 42
     }
 }

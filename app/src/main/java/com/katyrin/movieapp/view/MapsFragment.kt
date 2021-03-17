@@ -253,8 +253,6 @@ class MapsFragment : Fragment() {
             id,
             latLng, 200f,
             Geofence.GEOFENCE_TRANSITION_ENTER
-                    or Geofence.GEOFENCE_TRANSITION_DWELL
-                    or Geofence.GEOFENCE_TRANSITION_EXIT
         )
         geofenceList.add(geofence)
     }

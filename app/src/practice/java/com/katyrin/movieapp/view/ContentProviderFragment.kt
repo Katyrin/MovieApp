@@ -18,9 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.katyrin.movieapp.R
 import com.katyrin.movieapp.databinding.ContentProviderFragmentBinding
-
-const val REQUEST_CODE_READ_CONTACTS = 42
-const val REQUEST_CODE_CALL_PHONE = 54
+import com.katyrin.movieapp.view.MainActivity.Companion.REQUEST_CODE_READ_CONTACTS
 
 class ContentProviderFragment: Fragment() {
     private var _binding: ContentProviderFragmentBinding? = null
@@ -152,5 +150,6 @@ class ContentProviderFragment: Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = ContentProviderFragment()
+        const val REQUEST_CODE_CALL_PHONE = 54
     }
 }

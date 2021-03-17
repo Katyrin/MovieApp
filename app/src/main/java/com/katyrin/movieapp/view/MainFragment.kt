@@ -66,21 +66,22 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 binding.mainRecyclerView.visibility = View.VISIBLE
                 setData(appState.movies)
+                requireView().createAndShow(getString(R.string.success), length = Snackbar.LENGTH_LONG)
             }
-            is AppState.SuccessSearch -> {}
-            is AppState.SuccessHistory -> {}
-            is AppState.SuccessNote -> {}
             is AppState.Loading -> {
                 binding.mainRecyclerView.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
             }
             is AppState.Error -> {
                 binding.progressBar.visibility = View.GONE
-                binding.progressBar.createAndShow(
+                binding.mainRecyclerView.createAndShow(
                     getString(R.string.error), getString(R.string.reload),
                     {
                         getMoviesWithSettings()
                     })
+            }
+            else -> {
+                binding.mainRecyclerView.createAndShow(getString(R.string.unknown_app_state))
             }
         }
     }
@@ -91,8 +92,6 @@ class MainFragment : Fragment() {
         binding.mainRecyclerView.layoutManager = layoutManager
         binding.mainRecyclerView.adapter =
             VerticalRVAdapter(genres, listFavoritesMovie, onClickListener, onLikeListener)
-
-        requireView().createAndShow(getString(R.string.success), length = Snackbar.LENGTH_LONG)
     }
 
     private val onClickListener = object : FilmOnClickListener {

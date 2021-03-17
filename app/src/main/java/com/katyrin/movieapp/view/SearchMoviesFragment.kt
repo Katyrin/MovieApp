@@ -60,9 +60,6 @@ class SearchMoviesFragment : Fragment() {
                 binding.searchMoviesRV.visibility = View.VISIBLE
                 setData(appState.movies)
             }
-            is AppState.SuccessMainQuery -> {}
-            is AppState.SuccessHistory -> {}
-            is AppState.SuccessNote -> {}
             is AppState.Loading -> {
                 binding.searchMoviesRV.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
@@ -74,6 +71,9 @@ class SearchMoviesFragment : Fragment() {
                     {
                         viewModel.getAllFavorites()
                     })
+            }
+            else -> {
+                binding.searchMoviesRV.createAndShow(getString(R.string.unknown_app_state))
             }
         }
     }

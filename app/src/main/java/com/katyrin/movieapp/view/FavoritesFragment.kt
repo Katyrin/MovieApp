@@ -54,9 +54,6 @@ class FavoritesFragment: Fragment() {
 
                 startRVAdapter(appState.movies)
             }
-            is AppState.SuccessSearch -> {}
-            is AppState.SuccessHistory -> {}
-            is AppState.SuccessMainQuery -> {}
             is AppState.Loading -> {
                 binding.favoriteRV.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
@@ -68,6 +65,9 @@ class FavoritesFragment: Fragment() {
                     {
                         viewModel.getAllFavorites()
                     })
+            }
+            else -> {
+                binding.favoriteRV.createAndShow(getString(R.string.unknown_app_state))
             }
         }
     }
